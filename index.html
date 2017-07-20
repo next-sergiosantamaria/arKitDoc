@@ -72,6 +72,10 @@
                                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/1A237_3cfcw?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
                                 </div>
                                 <p><i>Ejemplo de como funciona el sistema VIO.</i></p>
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/z7DYC_zbZCM?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <p><i>Sistema de medición de entornos reales utilizando AR.</i></p>
                             </section><!--//doc-section-->
                             <section id="navegacion-section" class="doc-section">
                                 <h2 class="section-title">Requisitos</h2>
@@ -138,22 +142,51 @@
                                 <img class="img-responsive" src="assets/images/mapBox.png" alt="elegant icons">
                                 <div id="basico"  class="section-block">
                                     <h3 class="block-title">Escena básica</h3>
-                                    <p>Loren <a>Ipsun</a>.
-                                    </p>
+                                    <ol class="list">
+                                        <li>
+                                            <p>Descargar <i>Unity ArKit Plugin</i> desde el Asset Store.</p>
+                                                <img class="img-responsive" src="assets/images/unityAsset.png" alt="elegant icons">
+                                            <p>Se recomienda importarlo en un proyecto nuevo porque al importar el Asset realmente lo que importa es un proyecto completo, borrando cualquier modificacion hecha hasta entonces. </p>    
+                                        </li>
+                                        <li>
+                                            <p>Con la escena vacia, hay que añadir a la camara principal los componentes <i>"Unity AR video"</i>, que se encarga de controlar y manejar los datos del VIO y los sensores para trasladárselos, y <i>"Unity AR camera Near Far"</i> con el que se controla el Fov de la cámara en el entorno virtual.</p> 
+                                             <img class="img-responsive" src="assets/images/arCamera.png" alt="elegant icons">
+                                            <p>Estos componentes no vienen con parametros de configuracion. Si en algún caso concreto interesa cambiar alguna de las variables por defecto, hay que hacerlo directamente sobre el Script.</p>
+                                        </li>
+                                        <li>
+                                            <p>Añadir a la escena un objeto vacio, añadirle el componente <i>"Unity AR Camera Manager"</i>. Este componente necesita como parametro indicarle cual es la camara principal.</p>
+                                            <img class="img-responsive" src="assets/images/arempty.png" alt="elegant icons">
+                                            <p>Este componente se encarga de comunicarle a los objetos de la escena los datos recogidos por la cámara.</p> 
+                                        </li>
+                                        <li>
+                                            <p>Añadir un nuevo objeto vacío en la escena, que servira de contenedor a todos aquellos modelos 3D que luego vayamos a insertar en el "mundo real".</p> 
+                                        </li>
+                                        <li>
+                                            <p>Añadimos el modelo que querámos dentro del objeto vacio creado anteriormente y le añadimos el componente <i>"Unity AR Hit Test Example"</i>. Este componente necesita un <i>gameObject</i> como parametro, que sera el propio padre que usamos como contenedor.</p> 
+                                            <img class="img-responsive" src="assets/images/arobject.png" alt="elegant icons">
+                                        </li>
+                                        <li>
+                                            <p>Con esto tenemos una escenar básica con arKit en el que podemos encender la cámara, y fijar el modelo e un punto que toquemos en la pantalla. pero hay que tener en cuenta algunas consideraciones:</p> 
+                                            <ul class="list">
+                                                <li>Todos los objetos, tanto la camara como el objeto padre o los objetos hijos dentro de el, se recomienda que partan del punto <i>(0, 0, 0)</i> para facilitarle los calculos de posicionamiento al VIO.</li>
+                                                <li>Si quieres redimensionar el modelo 3D, siempre hay que hacerlo redimensionando el propio modelo desde un programa de modelado externo para que padre e hijo dentro de Unity mantengan la proporcion <i>(0.1, 0.1, 0.1)</i> y <i>(1, 1, 1)</i> respectivamente.</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
                                 </div><!--//section-block-->
                                 <div id="hit"  class="section-block">
                                     <h3 class="block-title">Hit Controller</h3>
-                                    <p>Loren <a>Ipsun</a>.
+                                    <p>Loren <a><b>Ipsun</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="shadow"  class="section-block">
                                     <h3 class="block-title">Shadow Plane</h3>
-                                    <p>Loren <a>Ipsun</a>.
+                                    <p>Loren <a><b>Ipsun</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="animator"  class="section-block">
                                     <h3 class="block-title">Object Animator</h3>
-                                    <p>Loren <a>Ipsun</a>.
+                                    <p>Loren <a><b>Ipsun</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                             </section><!--//doc-section-->
@@ -161,27 +194,27 @@
                                 <h2 class="section-title">ArKit + MapBox</h2>
                                 <div id="instalacion"  class="section-block">
                                     <h3 class="block-title">Instalación y requisitos</h3>
-                                    <p>Loren <a>Ipsun</a>.
+                                    <p>Loren <a><b>Ipsun</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="basicomap"  class="section-block">
                                     <h3 class="block-title">Mapa básico</h3>
-                                    <p>Loren <a>Ipsun</a>.
+                                    <p>Loren <a><b>Ipsun</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="meshmap"  class="section-block">
                                     <h3 class="block-title">Mesh Generator</h3>
-                                    <p>Loren <a>Ipsun</a>.
+                                    <p>Loren <a><b>Ipsun</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="stylesmap"  class="section-block">
                                     <h3 class="block-title">Estilos</h3>
-                                    <p>Loren <a>Ipsun</a>.
+                                    <p>Loren <a><b>Ipsun</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="inputmap"  class="section-block">
                                     <h3 class="block-title">Input Map</h3>
-                                    <p>Loren <a>Ipsun</a>.
+                                    <p>Loren <a><b>Ipsun</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                             </section><!--//doc-section-->
@@ -225,7 +258,6 @@
                 </div><!--//doc-body-->              
             </div><!--//container-->
         </div><!--//doc-wrapper-->
-    
     </div><!--//page-wrapper-->
     
     <footer id="footer" class="footer text-center">

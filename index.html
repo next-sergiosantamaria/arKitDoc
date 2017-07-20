@@ -64,11 +64,14 @@
                                     <p>Esta nueva libreria consigue una alta precision en el posicionamiento y tracking de los elementos basandose en dos tecnologias:</p> 
                                     <p><b>Vision artificial:</b> gracias a la tecnologia de vision artificial es capaz a traves de la camara del movil de detectar en el entorno superficio¡es horizontales (mesas, suelo...) sobre los que permite ubicar los modelos en realidad aumentada.</p>
                                     <p>En principio solo permite ubicar los modelos en superficies horizontales y con orientacion obviamente horizontal. Esto supone una limitacion si existen casos en los que nos interesase ubicarlos en planos verticales (colgando de una pared, por ejemplo).</p>
-                                    <p><b>VOI:</b></p>
+                                    <p><b>VIO (visual inertial odometry):</b></p>
+                                    <p>En cuanto al posicionamiento, utilizan de una forma muy inteligente tecnicas muy antiguas. El llamado <b>visual inertial odometry</b> en pocas palabras consiste en analizar la imagen en busca de aristas que le sirvan de referencia para seguir su movimiento, de esta forma el dispositivo sabe en que direccion se ha producido el movimiento y en que medida. </p>
+                                    <p>Este sistema ofrece una gran precision pero tiene un problema, que es el efecto <i>Blur</i> de las camaras. Cuando se mueve la cámara muy rapido la imagen se distorsiona y las aristas se difuminan, y si el dispositivo pierde durante más de dos frames esas aristas, pierde la referencia. Por eso este sistema lo han combinado con la informacion obtenida de los propios giroscopio y acelerometro del móvil, que tambien es una técnica ya anticuada pero que en este caso funciona muy bien al estar especificamente calibrado para el particular de sus dispositivos. </p>
                                 </div>
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ejBkOjEG6F0?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/1A237_3cfcw?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
                                 </div>
+                                <p><i>Ejemplo de como funciona el sistema VIO.</i></p>
                             </section><!--//doc-section-->
                             <section id="navegacion-section" class="doc-section">
                                 <h2 class="section-title">Requisitos</h2>

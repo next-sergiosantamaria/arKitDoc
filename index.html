@@ -145,17 +145,17 @@
                                     <ol class="list">
                                         <li>
                                             <p>Descargar <i>Unity ArKit Plugin</i> desde el Asset Store.</p>
-                                                <img class="img-responsive" src="assets/images/unityAsset.png" alt="elegant icons">
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/unityAsset.png" alt="elegant icons">
                                             <p>Se recomienda importarlo en un proyecto nuevo porque al importar el Asset realmente lo que importa es un proyecto completo, borrando cualquier modificacion hecha hasta entonces. </p>    
                                         </li>
                                         <li>
                                             <p>Con la escena vacia, hay que añadir a la camara principal los componentes <i>"Unity AR video"</i>, que se encarga de controlar y manejar los datos del VIO y los sensores para trasladárselos, y <i>"Unity AR camera Near Far"</i> con el que se controla el Fov de la cámara en el entorno virtual.</p> 
-                                             <img class="img-responsive" src="assets/images/arCamera.png" alt="elegant icons">
+                                             <img class="img-responsive" style="max-width: 60%;" src="assets/images/arCamera.png" alt="elegant icons">
                                             <p>Estos componentes no vienen con parametros de configuracion. Si en algún caso concreto interesa cambiar alguna de las variables por defecto, hay que hacerlo directamente sobre el Script.</p>
                                         </li>
                                         <li>
                                             <p>Añadir a la escena un objeto vacio, añadirle el componente <i>"Unity AR Camera Manager"</i>. Este componente necesita como parametro indicarle cual es la camara principal.</p>
-                                            <img class="img-responsive" src="assets/images/arempty.png" alt="elegant icons">
+                                            <img class="img-responsive" style="max-width: 60%;" src="assets/images/arempty.png" alt="elegant icons">
                                             <p>Este componente se encarga de comunicarle a los objetos de la escena los datos recogidos por la cámara.</p> 
                                         </li>
                                         <li>
@@ -163,7 +163,7 @@
                                         </li>
                                         <li>
                                             <p>Añadimos el modelo que querámos dentro del objeto vacio creado anteriormente y le añadimos el componente <i>"Unity AR Hit Test Example"</i>. Este componente necesita un <i>gameObject</i> como parametro, que sera el propio padre que usamos como contenedor.</p> 
-                                            <img class="img-responsive" src="assets/images/arobject.png" alt="elegant icons">
+                                            <img class="img-responsive" style="max-width: 60%;" src="assets/images/arobject.png" alt="elegant icons">
                                         </li>
                                         <li>
                                             <p>Con esto tenemos una escenar básica con arKit en el que podemos encender la cámara, y fijar el modelo e un punto que toquemos en la pantalla. pero hay que tener en cuenta algunas consideraciones:</p> 

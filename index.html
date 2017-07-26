@@ -44,14 +44,14 @@
                 </div><!--//branding-->
                 <ol class="breadcrumb">
                     <li><a href="../index.html">Home</a></li>
-                    <li class="active">Quick Start</li>
+                    <li class="active">Tutorial & Docs</li>
                 </ol>
             </div><!--//container-->
         </header><!--//header-->
         <div class="doc-wrapper">
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
-                    <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
+                    <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Tutorial & Docs </h1>
                     <div class="meta"><i class="fa fa-clock-o"></i> 16/07/2017</div>
                 </div><!--//doc-header-->
                 <div class="doc-body">
@@ -145,24 +145,31 @@
                                     <ol class="list">
                                         <li>
                                             <p>Descargar <i>Unity ArKit Plugin</i> desde el Asset Store.</p>
+                                            <p></p>
                                                 <img class="img-responsive" style="max-width: 60%;" src="assets/images/unityAsset.png" alt="elegant icons">
-                                            <p>Se recomienda importarlo en un proyecto nuevo porque al importar el Asset realmente lo que importa es un proyecto completo, borrando cualquier modificacion hecha hasta entonces. </p>    
+                                            <p></p>
+                                            <p><i>Se recomienda importarlo en un proyecto nuevo porque ya es proyecto completo en si y borrará cualquier modificacion hecha hasta entonces. </i></p>    
                                         </li>
                                         <li>
-                                            <p>Con la escena vacia, hay que añadir a la camara principal los componentes <i>"Unity AR video"</i>, que se encarga de controlar y manejar los datos del VIO y los sensores para trasladárselos, y <i>"Unity AR camera Near Far"</i> con el que se controla el Fov de la cámara en el entorno virtual.</p> 
+                                            <p>Con la escena vacia, hay que añadir a la camara principal los componentes <i>"Unity AR video"</i>, que se encarga de controlar y manejar los datos del VIO y los sensores, y <i>"Unity AR camera Near Far"</i> con el que se controla el Fov de la cámara en el entorno virtual.</p> 
+                                            <p></p>
                                              <img class="img-responsive" style="max-width: 60%;" src="assets/images/arCamera.png" alt="elegant icons">
-                                            <p>Estos componentes no vienen con parametros de configuracion. Si en algún caso concreto interesa cambiar alguna de las variables por defecto, hay que hacerlo directamente sobre el Script.</p>
+                                            <p></p>
+                                            <p><i>Estos componentes no vienen con parametros de configuracion. Si en algún caso concreto interesa cambiar alguna de las variables por defecto, hay que hacerlo directamente sobre el Script.</i></p>
                                         </li>
                                         <li>
                                             <p>Añadir a la escena un objeto vacio, añadirle el componente <i>"Unity AR Camera Manager"</i>. Este componente necesita como parametro indicarle cual es la camara principal.</p>
+                                            <p></p>
                                             <img class="img-responsive" style="max-width: 60%;" src="assets/images/arempty.png" alt="elegant icons">
-                                            <p>Este componente se encarga de comunicarle a los objetos de la escena los datos recogidos por la cámara.</p> 
+                                            <p></p>
+                                            <p><i>Este componente se encarga de comunicarle a los objetos de la escena los datos recogidos por la cámara.</i></p> 
                                         </li>
                                         <li>
                                             <p>Añadir un nuevo objeto vacío en la escena, que servira de contenedor a todos aquellos modelos 3D que luego vayamos a insertar en el "mundo real".</p> 
                                         </li>
                                         <li>
-                                            <p>Añadimos el modelo que querámos dentro del objeto vacio creado anteriormente y le añadimos el componente <i>"Unity AR Hit Test Example"</i>. Este componente necesita un <i>gameObject</i> como parametro, que sera el propio padre que usamos como contenedor.</p> 
+                                            <p>Añadimos el modelo que querámos dentro del objeto vacio creado anteriormente y le añadimos el componente <i>"Unity AR Hit Test Example"</i>. Este componente necesita un <i>gameObject</i> como parametro, que sera el propio padre que usamos como contenedor y nos sirve para poder ubicar el modelo en el entorno real.</p>
+                                            <p></p> 
                                             <img class="img-responsive" style="max-width: 60%;" src="assets/images/arobject.png" alt="elegant icons">
                                         </li>
                                         <li>
@@ -176,14 +183,96 @@
                                 </div><!--//section-block-->
                                 <div id="hit"  class="section-block">
                                     <h3 class="block-title">Hit Controller</h3>
-                                    <p>Loren <a><b>Ipsun</b></a>.
+                                    <p>Aunque en el tutorial previo ya se explica como añadir este componente al modelo para luego poder ubicarlo en el entorno, cabe estenderse sobre el para hablar de una serie de consideraciones.
+                                    </p>
+                                    <p>Como ya comentamos, este componente nos sirve para que al tocar la pantalla del dispositivo, el modelo virtual se quede fijado en el plano horizontal que haya detectado en el area en la que hemos tocado y asi, una vez fijado, podamos ya arcercarnos a el o redearlo y que se mantenga en su sitio. 
+                                    </p>
+                                    <p>El problema con este componente es que "acapara" todos los eventos touch en pantalla. Lo que quiere decir que si quisiesemos, por ejemplo, tener un menu en pantalla con botones con los que interactuar, al pulsar uno de esos botones el componente entendera que estamos queriendo reubicar el modelo, y resulta un poco incomodo. 
+                                    </p>
+                                    <p></p>
+                                    <img class="img-responsive" style="max-width: 60%;" src="assets/images/menuExample.png" alt="elegant icons">
+                                    <p></p>
+                                    <p>En la imagen, se ve como tenemos un menu con el que queremos interactuar sin que el componente entienda que tambien estamos queriendo reubicar el modelo, y para eso tenemos que introducir algunos cambios en el propio script del componente <i>"Unity AR Hit Test Example"</i>.
+                                    </p>
+                                     <pre><code class="language-javascript">
+using System;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
+
+namespace UnityEngine.XR.iOS
+{
+    public class UnityARHitTestExample : MonoBehaviour
+    {
+        public Transform m_HitTransform;
+
+        bool HitTestWithResultType (ARPoint point, ARHitTestResultType resultTypes)
+        {
+            List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface ().HitTest (point, resultTypes);
+            if (hitResults.Count > 0) {
+                foreach (var hitResult in hitResults) {
+                    Debug.Log ("Got hit!");
+                    m_HitTransform.position = UnityARMatrixOps.GetPosition (hitResult.worldTransform);
+                    m_HitTransform.rotation = UnityARMatrixOps.GetRotation (hitResult.worldTransform);
+                    Debug.Log (string.Format ("x:{0:0.######} y:{1:0.######} z:{2:0.######}", m_HitTransform.position.x, m_HitTransform.position.y, m_HitTransform.position.z));
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        // Update is called once per frame
+        void Update () {
+            if (Input.touchCount > 0 && m_HitTransform != null)
+            {
+                var touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(0))
+                {
+                    var screenPosition = Camera.main.ScreenToViewportPoint(touch.position);
+                    ARPoint point = new ARPoint {
+                        x = screenPosition.x,
+                        y = screenPosition.y
+                    };
+
+                    // prioritize reults types
+                    ARHitTestResultType[] resultTypes = {
+                        ARHitTestResultType.ARHitTestResultTypeExistingPlaneUsingExtent, 
+                        // if you want to use infinite planes use this:
+                        //ARHitTestResultType.ARHitTestResultTypeExistingPlane,
+                        ARHitTestResultType.ARHitTestResultTypeHorizontalPlane, 
+                        ARHitTestResultType.ARHitTestResultTypeFeaturePoint
+                    }; 
+                    
+                    foreach (ARHitTestResultType resultType in resultTypes)
+                    {
+                        if (HitTestWithResultType (point, resultType))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+    
+    }
+}
+                                        </code></pre>
+                                    <p> </p>    
+                                    <p>Aqui os dejo el Script ya modificado. Básicamente he añadido una excepción al evento <i>touch.phase == TouchPhase.Began</i> de la funcion <i>Update()</i> para indicar que solo debe ejecutarse en caso de que en la zona de la pantalla que estemos tocando no haya ya un elemento introducido por nosotros (<i>!EventSystem.current.IsPointerOverGameObject(0)</i>).
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="shadow"  class="section-block">
                                     <h3 class="block-title">Shadow Plane</h3>
-                                    <p>Loren <a><b>Ipsun</b></a>.
+                                    <p>Por defecto, los modelos no proyectan sombras en el entorno real, un recurso que mejora considerablemente la integracion. Pero <i>ARKit</i> dispone de un componente con el que poder añadir este efecto.
                                     </p>
-                                </div><!--//section-block-->
+                                    <p>Para recurrir a el, simplemente hay que añadir un objeto vacio a la escena, y a este añadirle el componente <i>"Unity AR Generate Plane"</i>.Este componente recibe como parametro un <i>gameObject</i> que segun lo que deseemos puede servir para calcular el <i>ambient occlusion</i>, para generar un plano Debug que te informa de las superficies horizontales que esta detectando, etc.</p>
+                                    <p>En este caso lo que nos interesa es generar sombras por lo que le pasaremos el Prefab <i>ShadowPlanePrefab</i> que el arKit ya tiene preparado para este propósito.</p>
+                                    <p> </p>
+                                    <img class="img-responsive" style="max-width: 60%;" src="assets/images/shadow.png" alt="elegant icons">
+                                    <p> </p>
+
+                                    <p><i>hay que tener en cuenta que la escena solo acepta un componente <i>"Unity AR Generate Plane"</i> dedicado a generacion de elementos, por lo que si ponemos varios solo se hará efectivo el primero en la jerarquia.</i></p>
+                                </div><!--//section-block
                                 <div id="animator"  class="section-block">
                                     <h3 class="block-title">Object Animator</h3>
                                     <p>Loren <a><b>Ipsun</b></a>.
@@ -194,27 +283,98 @@
                                 <h2 class="section-title">ArKit + MapBox</h2>
                                 <div id="instalacion"  class="section-block">
                                     <h3 class="block-title">Instalación y requisitos</h3>
-                                    <p>Loren <a><b>Ipsun</b></a>.
+                                    <p>El SDK de MapBox se descarga directamente desde la pagina oficial de MapBox. Una vez descargado se importa en nuestro proyecto como un <i>new package</i> y podremos observar que en la barra de Menu superior nos ha aparecido la opción <i>MapBox</i>.
+                                    </p>
+                                    <p> </p>
+                                    <img class="img-responsive" style="max-width: 60%;" src="assets/images/mapboxConf.png" alt="elegant icons">
+                                    <p> </p>
+                                    <p>Si pulsamos sobre <i>Configure Acces</i> nos abrira el cuadro de dialogo donde debemos introducir el <i>Acces Token</i> que MapBox nos facilita cuando nos damos de alta en su sistema.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="basicomap"  class="section-block">
                                     <h3 class="block-title">Mapa básico</h3>
-                                    <p>Loren <a><b>Ipsun</b></a>.
-                                    </p>
+                                     <ol class="list">
+                                        <li>
+                                            <p>Lo primero que hay que hacer es crear nuestro visualizador de mapas. Para ello vamos a crear una carpeta vacia en <i> Project </i> donde luego crearemos todos los componentes que necesitemos.</p>
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/cityMapEmpty.png" alt="elegant icons">
+                                            <p></p>
+                                            <p>Como hemos dicho, en este directorio vacio es donde crearemos todos los componentes de nuestro mapa, y el primero de ellos es el <i>MapVisualization</i>, asi que dentro de la carpeta hacemos <b>click derecho > Create > MapBox > MapVisualization</b>.</p>
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/createMapVisualization.png" alt="elegant icons">
+                                            <p></p>
+                                            <p><i>Despues de instalar el SDK de MapBox y haber configurado correctamente el Acces Token, se puede observar como ha aparecido la opcion MabBox en el menu contextual Create. Si no apareciese quiere decir que la instalacion no fue correcta.</i></p>    
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <i>MapVisualization</i> hace las veces de "controlador" de todas las <i>Factories</i> que vayamos creando. Y la primera que necesitamos es una que nos genere el terreno sobre el que se va a pintar el mapa. Asi que dentro de la carpeta <i>CityMap</i> creamos una nueva carpeta que llamaremos <i>CityTerrain</i> y dentro de esta a su vez crearemos el componente <i>Terrain Factory</i>.
+                                            </p>    
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/terrainFactory.png" alt="elegant icons">
+                                            <p></p>
+                                            <p><i>Este Factory necesita una serie de parametros de configuracion, pero de momento lo dejaremos todo por defecto excepto que activaremos la casilla Add Collider y como opcional, podemos inyectarle un material a nuestro gusto, porque el material por defecto tiene demasiados brillos.</i></p>   
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/cityTerrainConf.png" alt="elegant icons">
+                                            <p></p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                Una vez tenemos el terreno, necesitamos la textura del mapa para impromirlo sobre este, para ello, comom hicimos con el <i>MapTerrain</i> crearemos una nueva carpeta dentro de <i>CityMap</i> a la que llamaremos <i>CityImagery</i> y dentro de esta a su vez crearemos un <i>Map Image Factory</i>.
+                                            </p>    
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/mapImagery.png" alt="elegant icons">
+                                            <p></p>
+                                            <p>Este Factory necesita una serie de parametros de configuracion, pero de momento solo cambiaremos el parametro "Style", con el que elegiremos la estetica de nuestro mapa</p>   
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/mapImageryConf.png" alt="elegant icons">
+                                            <p></p>
+                                        </li> 
+                                        <li>
+                                            <p>
+                                                Con estos componentes creados, los inyectaremos en nuesto <i>MapVisualizer</i> para que se encarge de gestionarlo. para ello seleccionamos el componente y en el inspector le indicamos que nuestro "controller" manejara dos <i>Factory</i>.
+                                            </p>  
+                                            <p>
+                                                 Al hacerlo se nos ampliara la lista con dos lineas que esperan dos componentes como parametro y aqui le añadiremos a cada linea nuestros componentes <i>CityTerrain</i> y <i>CityImagery</i> que acabamos de crear. Evidentemente, con cada <i>Factory</i> nuevo que creemos, añadiremos en <i>MapVisualizer</i> una nueva linea para integrarlo si nos interesa.
+                                            </p>   
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/mapvisualizerconf.png" alt="elegant icons">
+                                            <p></p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                una vez todos los <i>Factory</i> creados y configurados,  ya podemos generar en la escena un mapa sencillo, por lo que vamos a incluirlo para probarlo. Para ello creamos un objeto vacio en la escena que llamaremos <i>Map</i> y le añadiremos el componente <i>"Abstract Map"</i> y  <i>"Range Tile Provider"</i>.
+                                            </p>    
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/mapScene.png" alt="elegant icons">
+                                            <p></p>
+                                            <p>En el componente <i>RangeTileProvider</i>, simplemente indicaremos que queremos un map con las proporciones todas a 1.</p> 
+                                            <p>En el componente <i>AbstractMap</i>, le pasaremos las coordenadas del mapa que deseamos, el zoom inicial de ese mapa y las opciones Tile Provider y Map visualizer esperan objetos como parametros.</p>  
+                                            <p>En <i>TileProvider</i>, arrastraremos hasta su casilla el propio componente <i>"Range Tile Provider"</i>.</p>    
+                                            <p>En <i>Mapvisualizer</i>, seleccionaremos el componente MapVisualizer que hemos estado creando y configurando hasta ahora.</p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                ¡Ya esta listo!, ahora solo hay que darle al <i>Play</i> asegurandonos de que el mapa entre dentro del campo de visión de la cámara y confirmar que esta todo correcto.
+                                            </p>    
+                                            <p></p>
+                                                <img class="img-responsive" style="max-width: 60%;" src="assets/images/mapResult.png" alt="elegant icons">
+                                            <p></p>
+                                        </li>
+                                     </ol>   
                                 </div><!--//section-block-->
                                 <div id="meshmap"  class="section-block">
                                     <h3 class="block-title">Mesh Generator</h3>
-                                    <p>Loren <a><b>Ipsun</b></a>.
+                                    <p>proximamente</a>.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="stylesmap"  class="section-block">
                                     <h3 class="block-title">Estilos</h3>
-                                    <p>Loren <a><b>Ipsun</b></a>.
+                                    <p>proximamente</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                                 <div id="inputmap"  class="section-block">
-                                    <h3 class="block-title">Input Map</h3>
-                                    <p>Loren <a><b>Ipsun</b></a>.
+                                    <h3 class="block-title">Input Data Map</h3>
+                                    <p>proximamente</b></a>.
                                     </p>
                                 </div><!--//section-block-->
                             </section><!--//doc-section-->
@@ -239,7 +399,6 @@
                                         <li><a class="scrollto" href="#basico">Escena básica</a></li>
                                         <li><a class="scrollto" href="#hit">Hit controller</a></li>
                                         <li><a class="scrollto" href="#shadow">Shadow plane</a></li>
-                                        <li><a class="scrollto" href="#animator">Object animator</a></li>
                                     </ul>
                                 </li>
                                 <li>

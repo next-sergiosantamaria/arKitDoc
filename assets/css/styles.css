@@ -1256,6 +1256,22 @@ select {
 .cards-section .item-purple .icon {
   color: #8A40A7;
 }
+ol {
+  margin:0 0 1.5em;
+  padding:0;
+  counter-reset:item;
+}
+ 
+ol>li {
+  margin-top: 30px;
+  list-style-type:none;
+  counter-increment:item;
+}
+ 
+ol>li:before {
+  font-weight:bold;
+  content:counter(item) ".";
+}
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 767px) {
   .cards-section .item-inner {
